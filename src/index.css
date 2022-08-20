@@ -1,13 +1,145 @@
-body {
+body,
+#root {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.at-wrap {
+  width: 90vw;
+  height: 99vh;
+  margin: 0 auto;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+.at-content {
+  position: relative;
+  overflow: hidden;
+  flex: 1 1 auto;
+}
+.at-sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  max-width: 70px;
+  width: auto;
+  display: flex;
+  align-content: stretch;
+  z-index: 1001;
+  overflow: hidden;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  background: #f7f7f7;
+}
+.at-viewport {
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  left: 70px;
+  right: 0;
+  bottom: 0;
+  padding-right: 20px;
+}
+.at-footer {
+  flex: 0 0 auto;
+  background: #436d9d;
+  color: #fff;
+}
+
+/** Footer **/
+.at-controls {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: space-between;
+  background: #436d9d;
+  color: #fff;
+}
+.at-controls > div {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+}
+.at-controls > div > * {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 4px;
+  margin: 0 3px;
+}
+.at-controls .btn {
+  color: #fff;
+  border-radius: 0;
+  height: 40px;
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+}
+.at-controls a.active {
+  background: #5588c7;
+  text-decoration: none;
+}
+.at-controls .btn i {
+  vertical-align: top;
+}
+.at-controls select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  width: 100%;
+  height: 40px;
+  background: #436d9d;
+  padding: 4px 10px;
+  color: #fff;
+  font-size: 16px;
+  text-align-last: center;
+  text-align: center;
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
+  cursor: pointer;
+}
+
+.at-song-title {
+  font-weight: bold;
+}
+
+.at-cursor-bar {
+  /* Defines the color of the bar background when a bar is played */
+  background: rgba(255, 242, 0, 0.25);
+}
+
+.at-selection div {
+  /* Defines the color of the selection background */
+  background: rgba(64, 64, 255, 0.1);
+}
+
+.at-cursor-beat {
+  /* Defines the beat cursor */
+  background: rgba(64, 64, 255, 0.75);
+  width: 3px;
+}
+
+.at-highlight * {
+  /* Defines the color of the music symbols when they are being played (svg) */
+  fill: #0078ff;
+  stroke: #0078ff;
+}
+.at-controls .btn.disabled {
+  /* cursor: progress; */
+  opacity: 0.5;
 }

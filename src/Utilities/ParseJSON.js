@@ -2,20 +2,28 @@ export const ParseJson = (jsonFile) => {
   const tempo = jsonFile.automations.tempo[0].bpm;
   const measures = jsonFile.measures;
 
-  const signature = measures[0].signature;
-  let ts = `${signature[0]} ${signature[1]}`;
-  let maxBeat = signature[1];
-
   let complAlphaTex = "";
-  measures.forEach((ele, index) => {
-    ele.voices[0].beats.forEach((elem2) => {
+  measures.forEach((ele, index1) => {
+    const signature = ele.signature;
+    if (signature) {
+      complAlphaTex += `\\ts ${signature[0]} ${signature[1]} `;
+    }
+
+    let isTuplet = false;
+    ele.voices[0].beats.forEach((elem2, index2) => {
       let duration = elem2.duration[0];
       let alphaTexBeat = "";
+      if (ele.index === 18) {
+        console.log(elem2);
+      }
+      if (elem2.tupletStart) {
+        isTuplet = true;
+      }
+
       if (duration === 1) {
         duration = elem2.duration[1];
       }
       if (elem2.rest) {
-        console.log(duration);
         if (duration % 2 === 1 && duration !== 1) {
           //odd
           alphaTexBeat = `r.${Math.ceil(duration / 2)}{d} `;
@@ -24,7 +32,7 @@ export const ParseJson = (jsonFile) => {
         }
       } else {
         alphaTexBeat = "(";
-        elem2.notes.forEach((elem3, index) => {
+        elem2.notes.forEach((elem3, index3) => {
           const fret = elem3.fret;
           const string = elem3.string + 1;
           alphaTexBeat += `${fret}.${string}`;
@@ -33,26 +41,37 @@ export const ParseJson = (jsonFile) => {
             alphaTexBeat += "{x}";
           }
 
-          if (index < elem2.notes.length - 1) {
+          if (isTuplet) {
+            alphaTexBeat += "{tu 3}";
+          }
+
+          if (index3 < elem2.notes.length - 1) {
             alphaTexBeat += ` `;
           }
         });
-        alphaTexBeat += `).${duration} `;
+        if (isTuplet) {
+          alphaTexBeat += `) `;
+        } else if (elem2.dotted) {
+          alphaTexBeat += `).${Math.ceil(elem2.duration[1] / 2)}{d} `;
+        } else {
+          alphaTexBeat += `).${duration} `;
+        }
       }
 
       complAlphaTex += alphaTexBeat;
+      if (elem2.tupletStop) {
+        isTuplet = false;
+      }
     });
-    if (index >= measures.length - 1) {
+    if (index1 >= measures.length - 1) {
       // complAlphaTex += `${alphaTexBeat}`;
     } else {
       complAlphaTex += `| `;
     }
   });
 
-  console.log(complAlphaTex);
   return {
     bpm: tempo,
-    ts: ts,
     notes: complAlphaTex,
   };
 };
